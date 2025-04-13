@@ -1,6 +1,8 @@
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Operations;
 
+namespace Blokyk.CA2254CodeFix;
+
 internal static class Utils
 {
     [return: NotNullIfNotNull(nameof(operation))]
