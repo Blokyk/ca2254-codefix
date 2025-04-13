@@ -64,14 +64,13 @@ public abstract class LoggerMessageFixer : CodeFixProvider
 
     private async Task<Document> SpreadFormatStringAsync(
         Document document, IInvocationOperation callOperation, IInterpolatedStringOperation interpolatedString,
-        int paramPos, CancellationToken token)
-    {
+        int paramPos, CancellationToken token) {
         var editor = await DocumentEditor.CreateAsync(document, token);
 
         var calleeSyntax = GetCalleeSyntax(callOperation);
 
         // take all arguments before the format one
-        IEnumerable<SyntaxNode> preFormatArgs =[]; // callOperation.Arguments.Take(paramPosition).Select(a => a.Syntax);
+        IEnumerable<SyntaxNode> preFormatArgs = []; // callOperation.Arguments.Take(paramPosition).Select(a => a.Syntax);
 
         var (uninterpolatedString, extractedParts) = Uninterpolate(editor.Generator, interpolatedString);
 
@@ -87,14 +86,12 @@ public abstract class LoggerMessageFixer : CodeFixProvider
     }
 
     private (SyntaxNode, ImmutableArray<SyntaxNode>) Uninterpolate(
-        SyntaxGenerator _, IInterpolatedStringOperation interpolated)
-    {
+        SyntaxGenerator _, IInterpolatedStringOperation interpolated) {
         var uninterpolatedNode = interpolated.Syntax;
         var extractedParts = ImmutableArray.CreateBuilder<SyntaxNode>(interpolated.Parts.Length);
 
         int exprPartIndex = 0;
-        foreach (var part in interpolated.Parts)
-        {
+        foreach (var part in interpolated.Parts) {
             // if this part is just text, don't do anything
             if (part is IInterpolatedStringTextOperation)
                 continue;
@@ -112,8 +109,7 @@ public abstract class LoggerMessageFixer : CodeFixProvider
                 .Append('{').Append(name);
 
             // append the original format specifier if there was one
-            if (interpolationPart.FormatString is not null)
-            {
+            if (interpolationPart.FormatString is not null) {
                 formatText
                     .Append(':').Append(interpolationPart.FormatString);
             }

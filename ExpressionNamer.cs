@@ -38,8 +38,7 @@ internal class ExpressionNamer : CSharpSyntaxVisitor<string>
         "Not" + NameFor(node.Pattern);
 
     public override string VisitLiteralExpression(LiteralExpressionSyntax node) =>
-        node.Kind() switch
-        {
+        node.Kind() switch {
             SyntaxKind.NumericLiteralExpression => "num", // maybe it could be more helpful to put the number's text directly (esp. for patterns)
             SyntaxKind.StringLiteralExpression => "text",
             SyntaxKind.CharacterLiteralExpression => "character",

@@ -29,8 +29,7 @@ internal readonly struct Range : IEquatable<Range>
     /// <summary>Construct a Range object using the start and end indexes.</summary>
     /// <param name="start">Represent the inclusive start index of the range.</param>
     /// <param name="end">Represent the exclusive end index of the range.</param>
-    public Range(Index start, Index end)
-    {
+    public Range(Index start, Index end) {
         Start = start;
         End = end;
     }
@@ -47,14 +46,12 @@ internal readonly struct Range : IEquatable<Range>
     public bool Equals(Range other) => other.Start.Equals(Start) && other.End.Equals(End);
 
     /// <summary>Returns the hash code for this instance.</summary>
-    public override int GetHashCode()
-    {
+    public override int GetHashCode() {
         return HashCode.Combine(Start.GetHashCode(), End.GetHashCode());
     }
 
     /// <summary>Converts the value of the current Range object to its equivalent string representation.</summary>
-    public override string ToString()
-    {
+    public override string ToString() {
         return Start.ToString() + ".." + End.ToString();
     }
 
@@ -75,8 +72,7 @@ internal readonly struct Range : IEquatable<Range>
     /// We validate the range is inside the length scope though.
     /// </remarks>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public (int Offset, int Length) GetOffsetAndLength(int length)
-    {
+    public (int Offset, int Length) GetOffsetAndLength(int length) {
         int start;
         Index startIndex = Start;
         if (startIndex.IsFromEnd)
@@ -91,8 +87,7 @@ internal readonly struct Range : IEquatable<Range>
         else
             end = endIndex.Value;
 
-        if ((uint)end > (uint)length || (uint)start > (uint)end)
-        {
+        if ((uint)end > (uint)length || (uint)start > (uint)end) {
             throw new ArgumentOutOfRangeException(nameof(length));
         }
 

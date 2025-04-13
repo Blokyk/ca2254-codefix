@@ -24,8 +24,7 @@ public partial class CSharpLoggerMessageFixer : LoggerMessageFixer
                 text,
                 SyntaxTriviaList.Empty));
 
-    protected override SyntaxNode AsRegularString(SyntaxNode node)
-    {
+    protected override SyntaxNode AsRegularString(SyntaxNode node) {
         var interpolatedNode = (InterpolatedStringExpressionSyntax)node;
 
         var hey = Task.FromResult(0) is not default(Task<int>);
@@ -38,8 +37,7 @@ public partial class CSharpLoggerMessageFixer : LoggerMessageFixer
         return SyntaxFactory.LiteralExpression(SyntaxKind.StringLiteralExpression, SyntaxFactory.Literal(newNode));
     }
 
-    protected override string GetFormatValueName(IOperation expr, int index)
-    {
+    protected override string GetFormatValueName(IOperation expr, int index) {
         if (expr.Type?.SpecialType is SpecialType.System_DateTime)
             return "DateTime";
 

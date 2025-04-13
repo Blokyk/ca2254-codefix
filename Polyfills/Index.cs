@@ -28,10 +28,8 @@ internal readonly struct Index : IEquatable<Index>
     /// If the Index constructed from the end, index value 1 means pointing at the last element and index value 0 means pointing at beyond last element.
     /// </remarks>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public Index(int value, bool fromEnd = false)
-    {
-        if (value < 0)
-        {
+    public Index(int value, bool fromEnd = false) {
+        if (value < 0) {
             throw new ArgumentOutOfRangeException(nameof(value), value, "Non-negative number required.");
         }
 
@@ -42,8 +40,7 @@ internal readonly struct Index : IEquatable<Index>
     }
 
     // The following private constructors mainly created for perf reason to avoid the checks
-    private Index(int value)
-    {
+    private Index(int value) {
         _value = value;
     }
 
@@ -56,10 +53,8 @@ internal readonly struct Index : IEquatable<Index>
     /// <summary>Create an Index from the start at the position indicated by the value.</summary>
     /// <param name="value">The index value from the start.</param>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static Index FromStart(int value)
-    {
-        if (value < 0)
-        {
+    public static Index FromStart(int value) {
+        if (value < 0) {
             throw new ArgumentOutOfRangeException(nameof(value), value, "Non-negative number required.");
         }
 
@@ -69,10 +64,8 @@ internal readonly struct Index : IEquatable<Index>
     /// <summary>Create an Index from the end at the position indicated by the value.</summary>
     /// <param name="value">The index value from the end.</param>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static Index FromEnd(int value)
-    {
-        if (value < 0)
-        {
+    public static Index FromEnd(int value) {
+        if (value < 0) {
             throw new ArgumentOutOfRangeException(nameof(value), value, "Non-negative number required.");
         }
 
@@ -80,10 +73,8 @@ internal readonly struct Index : IEquatable<Index>
     }
 
     /// <summary>Returns the index value.</summary>
-    public int Value
-    {
-        get
-        {
+    public int Value {
+        get {
             if (_value < 0)
                 return ~_value;
             else
@@ -103,11 +94,9 @@ internal readonly struct Index : IEquatable<Index>
     /// then used to index a collection will get out of range exception which will be same affect as the validation.
     /// </remarks>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public int GetOffset(int length)
-    {
+    public int GetOffset(int length) {
         int offset = _value;
-        if (IsFromEnd)
-        {
+        if (IsFromEnd) {
             // offset = length - (~value)
             // offset = length + (~(~value) + 1)
             // offset = length + value + 1
@@ -135,8 +124,7 @@ internal readonly struct Index : IEquatable<Index>
 
     /// <summary>Converts the value of the current Index object to its equivalent string representation.</summary>
     [SuppressMessage("Globalization", "CA1305:Specify IFormatProvider", Justification = "Matches implementation from dotnet/runtime")]
-    public override string ToString()
-    {
+    public override string ToString() {
         if (IsFromEnd)
             return '^' + Value.ToString();
 
