@@ -28,11 +28,21 @@ public partial class CSharpLoggerMessageFixer : LoggerMessageFixer
     {
         var interpolatedNode = (InterpolatedStringExpressionSyntax)node;
 
+        var hey = Task.FromResult(0) is not default(Task<int>);
+
         // todo: handle *raw* interpolated strings (i.e. $@"" or @$"")
         // todo: handle multiline raw interpolated strings
 
         var newNode = interpolatedNode.Contents.ToString();
 
         return SyntaxFactory.LiteralExpression(SyntaxKind.StringLiteralExpression, SyntaxFactory.Literal(newNode));
+    }
+
+    protected override string GetFormatValueName(IOperation expr, int index)
+    {
+        if (expr.Type?.SpecialType is SpecialType.System_DateTime)
+            return "DateTime";
+
+        return ExpressionNamer.NameFor((CSharpSyntaxNode)expr.Syntax);
     }
 }

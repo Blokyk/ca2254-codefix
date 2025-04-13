@@ -55,27 +55,10 @@ public abstract class LoggerMessageFixer : CodeFixProvider
         if (callOperation.Arguments.Length - 2 > paramPosition + 1) // -2 to remove implicit 'this' and 'params' arguments
             return;
 
-        // if (interpolatedString.Parts is [IInterpolationOperation interpolationExpr])
-        // {
-        //     context.RegisterCodeFix(CodeAction.Create(
-        //         title: "fixme",
-        //         createChangedDocument: token => SpreadSingleFormatStringAsync(context.Document, callOperation, interpolationExpr, paramPosition, token),
-        //         equivalenceKey: "fixme"
-        //     ), context.Diagnostics.First());
-        // }
-        // else
-        // {
-        //     context.RegisterCodeFix(CodeAction.Create(
-        //         title: "fixme", // fixme: title
-        //         createChangedDocument: token => SpreadFormatStringAsync(context.Document, callOperation, interpolatedString, paramPosition, token),
-        //         equivalenceKey: "fixme" // fixme: equivalenceKey
-        //     ), context.Diagnostics.First());
-        // }
-
         context.RegisterCodeFix(CodeAction.Create(
-            title: "fixme", // fixme: title
+            title: "CA2254 CodeFix", // fixme: title
             createChangedDocument: token => SpreadFormatStringAsync(context.Document, callOperation, interpolatedString, paramPosition, token),
-            equivalenceKey: "fixme" // fixme: equivalenceKey
+            equivalenceKey: "Blokyk.CA2254CodeFix" // fixme: equivalenceKey
         ), context.Diagnostics.First());
     }
 
@@ -103,30 +86,6 @@ public abstract class LoggerMessageFixer : CodeFixProvider
         return editor.GetChangedDocument();
     }
 
-    // private static async Task<Document> SpreadSingleFormatStringAsync(
-    //     Document document, IInvocationOperation callOperation, IInterpolationOperation interpolationExpr,
-    //     int paramPosition, CancellationToken token)
-    // {
-    //     var editor = await DocumentEditor.CreateAsync(document, token);
-
-    //     var calleeSyntax = GetCalleeSyntax(callOperation);
-
-    //     // take all arguments before the format one
-    //     IEnumerable<SyntaxNode> preFormatArgs = callOperation.Arguments.Take(paramPosition).Select(a => a.Syntax);
-
-    //     SyntaxNode uninterpolatedString = editor.Generator.LiteralExpression(
-    //         "{" + GetFormatValueName(interpolationExpr.Expression) + "}"
-    //     );
-
-    //     SyntaxNode[] allArgsSyntax = [.. preFormatArgs, uninterpolatedString, interpolationExpr.Expression.Syntax];
-
-    //     var newCall = editor.Generator.InvocationExpression(calleeSyntax, allArgsSyntax);
-
-    //     editor.ReplaceNode(callOperation.Syntax, newCall);
-
-    //     return editor.GetChangedDocument();
-    // }
-
     private (SyntaxNode, ImmutableArray<SyntaxNode>) Uninterpolate(
         SyntaxGenerator _, IInterpolatedStringOperation interpolated)
     {
@@ -136,17 +95,6 @@ public abstract class LoggerMessageFixer : CodeFixProvider
         int exprPartIndex = 0;
         foreach (var part in interpolated.Parts)
         {
-            // // if this part is the 'text' part, just append it directly
-            // if (part is IInterpolatedStringTextOperation { Text.Syntax: var partText })
-            // {
-            //     // we can't just use the .ConstantValue directly since we want to keep
-            //     // the fragment intact, including e.g. escape sequences
-            //     var oldTextToken = partText.GetFirstToken();
-
-            //     uninterpolatedNode = uninterpolatedNode.ReplaceToken(oldTextToken, )
-            //     continue;
-            // }
-
             // if this part is just text, don't do anything
             if (part is IInterpolatedStringTextOperation)
                 continue;
@@ -172,7 +120,7 @@ public abstract class LoggerMessageFixer : CodeFixProvider
 
             formatText.Append('}');
 
-            // we don't the same for .Alignement since the documentation doesn't mention any support for it
+            // (we don't care about .Alignement since the documentation doesn't mention any support for it)
 
             var formatTextNode = AsInterpolatedTextSyntax(formatText.ToString());
             // uninterpolatedNode = generator.ReplaceNode(uninterpolatedNode, interpolationPart.Syntax, formatTextNode);
