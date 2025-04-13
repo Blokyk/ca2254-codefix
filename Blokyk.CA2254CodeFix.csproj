@@ -24,6 +24,8 @@
 
     <PackageReadmeFile>info/README.md</PackageReadmeFile>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageLicenseUrl>info/LICENSE</PackageLicenseUrl>
+    <PackageVersion>$(Version)</PackageVersion>
   </PropertyGroup>
 
   <!-- Packaging stuff -->
@@ -40,5 +42,6 @@
   <ItemGroup>
     <None Include="$(OutputPath)/$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
     <None Include="$(MSBuildThisFileDirectory)README.md" Pack="true" PackagePath="info"/>
+    <None Include="$(MSBuildThisFileDirectory)LICENSE" Pack="true" PackagePath="info"/>
   </ItemGroup>
 </Project>
