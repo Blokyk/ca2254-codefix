@@ -1,13 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Description>A Roslyn CodeFix for diagnostic CA2254 ('Logger message template should be a static expression')</Description>
-    <PackageTags>roslyn;analyzer;codefix;logging</PackageTags>
-    <IsPackable>true</IsPackable>
-    <IncludeBuildOutput>false</IncludeBuildOutput>
     <LangVersion>preview</LangVersion>
+    <ImplicitUsings>true</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <Version>0.1.0</Version>
+    <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
   </PropertyGroup>
 
   <ItemGroup>
@@ -16,7 +13,32 @@
     <PackageReference Update="NETStandard.Library" PrivateAssets="all" />
   </ItemGroup>
 
+  <!-- NuGet info -->
+  <PropertyGroup>
+    <PackageId>Blokyk.CA2254CodeFix</PackageId>
+    <Version>0.1.0</Version>
+
+    <Description>A Roslyn CodeFix for diagnostic CA2254 ('Logger message template should be a static expression')</Description>
+    <PackageTags>roslyn;analyzer;codefix;logging;structured-logging</PackageTags>
+    <Authors>Blokyk</Authors>
+
+    <PackageReadmeFile>info/README.md</PackageReadmeFile>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+  </PropertyGroup>
+
+  <!-- Packaging stuff -->
+  <PropertyGroup>
+    <IncludeBuildOutput>false</IncludeBuildOutput>
+    <IsRoslynComponent>true</IsRoslynComponent>
+    <DevelopmentDependency>true</DevelopmentDependency> <!-- Projects referencing this won't have the package as a dependency -->
+    <SuppressDependenciesWhenPacking>true</SuppressDependenciesWhenPacking> <!-- We don't have any runtime dependencies (other than roslyn obviously) -->
+    <IsPackable>true</IsPackable>
+    <PackRelease>true</PackRelease>
+    <PublishRelease>true</PublishRelease>
+  </PropertyGroup>
+
   <ItemGroup>
     <None Include="$(OutputPath)/$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+    <None Include="$(MSBuildThisFileDirectory)README.md" Pack="true" PackagePath="info"/>
   </ItemGroup>
 </Project>
